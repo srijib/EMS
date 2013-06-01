@@ -108,13 +108,27 @@ return array(
 				*/
 			),
 		),
+		'mail' => array(
+            'class' => 'ext.yii-mail.YiiMail',
+            'transportType' => 'smtp', // change to 'php' when running in real domain.
+            'viewPath' => 'application.views.mail',
+            'logging' => true,
+            'dryRun' => false,
+            'transportOptions' => array(
+                'host' => 'smtp.gmail.com',
+                'username' => 'Enter your email',
+                'password' => 'Enter your pass',
+                'port' => '465',
+                'encryption' => 'ssl',
+            )
+        ),
 	),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		'adminEmail'=>'Enter your email',
         'pageSize' => '20',
 	),
 );
