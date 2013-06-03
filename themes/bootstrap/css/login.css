@@ -9,7 +9,7 @@
 #img_header {
     position:relative;
     top: 30px;
-
+    left: 410px;
 }
 
 hr {border-top:1px dotted #cccccc;}
@@ -52,7 +52,7 @@ hr {border-top:1px dotted #cccccc;}
     left: 200px ;
 }
 
-/**/
+/* CSS for footer */
 div#block-toolbar {
     background: url(../images/index_top.png) repeat-x scroll 0 0 transparent;
     border-bottom: 1px solid rgba(0, 0, 2, 0.1);
@@ -126,9 +126,6 @@ p, hr, ul, ol, dl, blockquote, pre, fieldset, figure {
     margin: 15px 0;
 }
 
-a, h2, h4, h5, h6, #footer a:hover, .menu-dropdown li.active > a, .menu-sidebar a.active, .menu-sidebar li > span.active, #system .pagination a:hover {
-    color: #B22222;
-}
 a {
     color: #777779;
 }
@@ -153,30 +150,6 @@ a, a:hover {
     width: 30px;
 }
 
-.social-icons .facebook a {
-    background-position: 0 -140px;
-}
-.social-icons .facebook a:hover {
-    background-position: 0 -175px;
-}
-.social-icons .twitter a {
-    background-position: 0 -8px;
-}
-.social-icons .twitter a:hover {
-    background-position: 0 -40px;
-}
-.social-icons .youtube a {
-    background-position: 0 -73px;
-}
-.social-icons .youtube a:hover {
-    background-position: 0 -105px;
-}
-.social-icons .googleplus a {
-    background-position: 0 -211px;
-}
-.social-icons .googleplus a:hover {
-    background-position: 0 -246px;
-}
 
 ul.bottom_right, ol.bottom_right, dl.bottom_right {
     padding-left: 0px;
@@ -214,12 +187,18 @@ ul.bottom_left, ol.bottom_left, dl.bottom_left {
     line-height: 30px;
 }
 li.users a {background: url(../images/ql-users.gif) no-repeat scroll 0 0px transparent;}
-li.options a {background: url(../images/ql-options.gif) no-repeat scroll 0 0px transparent;}
+li.users a strong { color: #40c9f5;}
+li.options a {background: url(../images/facebook.gif) no-repeat scroll 0 0px transparent;}
 li.settings a {background: url(../images/ql-settings.gif) no-repeat scroll 0 0px transparent;}
-li.messages a {background: url(../images/ql-messages.gif) no-repeat scroll 0 0px transparent;}
-li.databases a {background: url(../images/ql-databases.gif) no-repeat scroll 0 0px transparent;}
+li.messages a {background: url(../images/it-science.gif) no-repeat scroll 0 0px transparent;}
+li.databases a {background: url(../images/logo.gif) no-repeat scroll 0 0px transparent;}
 
-
+.databases {
+    padding-bottom: 5px;
+}
+.messages {
+    padding-bottom: 5px;
+}
 div#distance2 {
     clear: both;
     margin-top: 20px;

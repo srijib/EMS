@@ -15,6 +15,7 @@
 
 <body>
 
+<a href="<?php echo app()->createUrl('/site/index');?>"><img class="brand" src="<?php echo app()->theme->baseUrl; ?>/images/ico/mainnav.png" alt="Image"></a>
 <?php $this->widget('bootstrap.widgets.TbNavbar',array(
     'items'=>array(
         array(
@@ -82,18 +83,18 @@
                             <div class="module  deepest">
                                 <ul class="bottom_left">
                                     <li class="databases">
-                                        <a title="Glandore Systems" target="_blank" href="http://www.GlandoreSystems.com/" class="mootip">
-                                            <strong style="float: left">The POWER to Launch BIG Ideas</strong>
+                                        <a title="" target="_blank" href="http://www.hcmutrans.edu.vn/" class="mootip">
+                                            <strong style="float: left">Ho Chi Minh City University of Transport</strong>
                                         </a>
                                     </li>
                                     <li class="messages">
-                                        <a title="Glandore Systems" target="_blank" href="http://www.GlandoreSystems.com/" class="mootip">
-                                            <strong style="float: left">Software Innovation Consultancy</strong>
+                                        <a title="" target="_blank" href="http://www.hcmutrans.edu.vn/khoa/cntt/Web/index.php" class="mootip">
+                                            <strong style="float: left">IT science</strong>
                                         </a>
                                     </li>
                                     <li class="options">
-                                        <a title="Glandore Systems" target="_blank" href="http://www.GlandoreSystems.com/" class="mootip">
-                                            <strong style="float: left">Generate IDEAS and Formulate BEST Practices</strong>
+                                        <a title="" target="_blank" href="http://www.facebook.com/groups/CN11LT.dhgtvt/" class="mootip">
+                                            <strong style="float: left">CN11LT</strong>
                                         </a>
                                     </li>
                                 </ul>
@@ -103,12 +104,12 @@
                             <div class="module  deepest">
                                 <ul class="bottom_right">
                                     <li class="users">
-                                        <a title="Glandore Human Resource" href="#" class="mootip">
+                                        <a title="" href="#" style="text-decoration: none" class="mootip">
                                             <strong>EMS</strong>
                                         </a>
                                     </li>
                                     <li class="right_info">
-                                        Ho Chi Minh City University of Transport
+                                        Graduate Internship Project
                                     </li>
                                     <li class="right_info">
                                         Employee Management System

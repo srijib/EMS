@@ -8,7 +8,7 @@ Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'EMS',
+	'name'=>'',
 
 	// preloading 'log' component
 	'preload'=>array(
@@ -84,6 +84,18 @@ return array(
             'enableParamLogging'=>true,
 		),
 
+        /* DB Non Relationship
+        'db'=>array(
+            'connectionString' => 'mysql:host=127.0.0.1;dbname=ems',
+            'emulatePrepare' => true,
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+            'enableProfiling'=>true,
+            'enableParamLogging'=>true,
+        ),
+        */
+
         'authManager'=>array(
             'class'=>'CDbAuthManager',
             'connectionID'=>'db',
@@ -116,8 +128,8 @@ return array(
             'dryRun' => false,
             'transportOptions' => array(
                 'host' => 'smtp.gmail.com',
-                'username' => 'Enter your email',
-                'password' => 'Enter your pass',
+                'username' => 'noreply.ems.project@gmail.com',
+                'password' => 'pw-intern-2013',
                 'port' => '465',
                 'encryption' => 'ssl',
             )
@@ -128,7 +140,10 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'Enter your email',
+		'adminEmail'=>'adm.ems.project@gmail.com',
+        'adminName' => 'EMS Team',
+        'noreplyEmail' => 'noreply.ems.project@gmail.com',
+        'noreplyName' => 'noreply',
         'pageSize' => '20',
 	),
 );
