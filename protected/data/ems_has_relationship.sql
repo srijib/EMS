@@ -102,10 +102,8 @@ CREATE TABLE IF NOT EXISTS `authassignment` (
 --
 
 INSERT INTO `authassignment` (`itemname`, `userid`, `bizrule`, `data`) VALUES
-('accountant', '5', '', 'N;'),
 ('admin', '1', NULL, 'N;'),
 ('admin', '2', NULL, 'N;'),
-('leader', '4', '', 'N;'),
 ('user', '3', NULL, 'N;');
 
 -- --------------------------------------------------------
