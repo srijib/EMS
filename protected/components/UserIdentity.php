@@ -7,7 +7,12 @@
  */
 class UserIdentity extends CUserIdentity
 {
-	/**
+    private $_id;
+    const ERROR_EMAIL_INVALID=3;
+    const ERROR_STATUS_NOTACTIV=4;
+    const ERROR_STATUS_BAN=5;
+
+    /**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password
 	 * are both 'demo'.
@@ -17,17 +22,38 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		$users=array(
-			// username => password
-			'demo'=>'demo',
-			'admin'=>'admin',
-		);
-		if(!isset($users[$this->username]))
-			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($users[$this->username]!==$this->password)
-			$this->errorCode=self::ERROR_PASSWORD_INVALID;
-		else
-			$this->errorCode=self::ERROR_NONE;
-		return !$this->errorCode;
+        $user = User::model()->findByAttributes(array('email'=>$this->username, 'status'=>1));
+
+        if($user===null)
+        {
+            $this->errorCode=self::ERROR_USERNAME_INVALID;
+        }
+        else if($user->password !== encrypt($this->password)) {
+            $this->errorCode=self::ERROR_PASSWORD_INVALID;
+        } else if ($user->status == 0){
+            $this->errorCode=self::ERROR_STATUS_NOTACTIV;
+        } else if ($user->status == 2) {
+            $this->errorCode=self::ERROR_STATUS_BAN;
+        } else {
+            $this->_id = $user->id;
+            $this->setState('role', $user->getRoleOfUser());
+            $this->setState('type',$user->getUserType());
+            if($user->type == 0) {
+                $this->setState('department', $user->getEmployeeDepartment($user->id));
+            }
+            $this->setState('FistLastName', $user->getFistLastName());
+            $this->errorCode=self::ERROR_NONE;
+        }
+
+        return !$this->errorCode;
 	}
+
+    /**
+     * @return integer the ID of the user record
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
+
 }

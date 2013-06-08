@@ -2,6 +2,10 @@
 
 class SiteController extends Controller
 {
+    const NOACTIVE = 0;
+    const ACTIVE = 1;
+    const BANNED = 2;
+
 	/**
 	 * Declares class-based actions.
 	 */
@@ -30,7 +34,7 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		//$this->render('index');
-        if(Yii::app()->user->id) {
+        if(app()->user->id) {
             $this->render('index');
         }else{
             $this->redirect(CController::CreateUrl('/site/login'));
@@ -42,9 +46,9 @@ class SiteController extends Controller
 	 */
 	public function actionError()
 	{
-		if($error=Yii::app()->errorHandler->error)
+		if($error=app()->errorHandler->error)
 		{
-			if(Yii::app()->request->isAjaxRequest)
+			if(app()->request->isAjaxRequest)
 				echo $error['message'];
 			else
 				$this->render('error', $error);
@@ -89,7 +93,7 @@ class SiteController extends Controller
 		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
 		{
 			echo CActiveForm::validate($model);
-			Yii::app()->end();
+			app()->end();
 		}
 
 		// collect user input data
@@ -97,8 +101,10 @@ class SiteController extends Controller
 		{
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+			if($model->validate() && $model->login()) {
+                $this->lastVisit();
+                $this->redirect(app()->user->returnUrl);
+            }
 		}
 		// display the login form
 		$this->render('login',array('model'=>$model));
@@ -109,7 +115,17 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+		app()->user->logout();
+		$this->redirect(app()->homeUrl);
 	}
+
+    /*
+     *   Get lastvisit time to save into DB
+     */
+    private function lastVisit() {
+        $lastVisit = User::model()->findByPk(app()->user->id);
+        $lastVisit->lastvisit = gettime();
+        $lastVisit->save();
+    }
+
 }

@@ -1,7 +1,16 @@
 <?php
-/* @var $this SiteController */
+$this->breadcrumbs=array(
+	'Users'=>array('index'),
+	$model->id,
+);
 
-$this->pageTitle=Yii::app()->name;
+$this->menu=array(
+array('label'=>'List User','url'=>array('index')),
+array('label'=>'Create User','url'=>array('create')),
+array('label'=>'Update User','url'=>array('update','id'=>$model->id)),
+array('label'=>'Delete User','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
+array('label'=>'Manage User','url'=>array('admin')),
+);
 ?>
 <p>
     <?php
@@ -29,22 +38,23 @@ $this->pageTitle=Yii::app()->name;
     ?>
 </p>
 
-<?php $this->beginWidget('bootstrap.widgets.TbHeroUnit',array(
-    'heading'=>'Welcome to '.CHtml::encode(Yii::app()->name),
+<h1>View User #<?php echo $model->id; ?></h1>
+
+<?php $this->widget('bootstrap.widgets.TbDetailView',array(
+'data'=>$model,
+'attributes'=>array(
+		'id',
+		'firstname',
+		'lastname',
+		'fullname',
+		'email',
+		'dob',
+		'password',
+		'activkey',
+		'status',
+		'lastvisit',
+		'created_date',
+		'type',
+		'updated_date',
+),
 )); ?>
-
-<p>Congratulations! You have successfully created your Yii application.</p>
-
-<?php $this->endWidget(); ?>
-
-<p>You may change the content of this page by modifying the following two files:</p>
-
-<ul>
-    <li>View file: <code><?php echo __FILE__; ?></code></li>
-    <li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>
-</ul>
-
-<p>For more details on how to further develop this application, please read
-    the <a href="http://www.yiiframework.com/doc/">documentation</a>.
-    Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
-    should you have any questions.</p>

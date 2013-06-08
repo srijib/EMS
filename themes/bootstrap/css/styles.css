@@ -14,8 +14,10 @@
     color: #40c9f5 !important;
 }
 
-.brand {
+.img {
     left: 175px;
+    height: 54px;
+    width: 64px;
     top: 2px;
     position: absolute;
     z-index: 10000;

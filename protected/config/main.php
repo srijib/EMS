@@ -13,7 +13,8 @@ return array(
 	// preloading 'log' component
 	'preload'=>array(
         'log',
-        'bootstrap'
+        'bootstrap',
+        'mail',
     ),
 
     //  Aplly Theme
@@ -27,6 +28,8 @@ return array(
 		'application.models.*',
 		'application.components.*',
         'application.extensions.*',
+        'ext.bootstrap.*',
+        'ext.yii-mail.*',
 	),
 
 	'modules'=>array(
@@ -34,7 +37,7 @@ return array(
 
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'abc123',
+			'password'=>'Abc123',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
             'generatorPaths' => array(
@@ -86,7 +89,7 @@ return array(
 
         /* DB Non Relationship
         'db'=>array(
-            'connectionString' => 'mysql:host=127.0.0.1;dbname=ems',
+            'connectionString' => 'mysql:host=127.0.0.1;dbname=nonems',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '',
@@ -141,9 +144,9 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'adm.ems.project@gmail.com',
-        'adminName' => 'EMS Team',
+        'adminName' => 'EMS System',
         'noreplyEmail' => 'noreply.ems.project@gmail.com',
-        'noreplyName' => 'noreply',
+        'noreplyName' => 'Noreply',
         'pageSize' => '20',
 	),
 );
