@@ -31,18 +31,7 @@ return false;
 	or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php //echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn'));
-$this->widget('bootstrap.widgets.TbButton',array(
-    'label' => 'Advanced Search',
-    'htmlOptions'=>array('Class'=>'search-button btn', 'style'=>'float: right;'),
-    'size' => 'large'
-));
-$this->widget('bootstrap.widgets.TbButton', array(
-    //'buttonType'=>'link',
-    'label'=>'Create Profile',
-    'htmlOptions'=>array('Class'=>'btn'),
-    'url'=>'../../Employee/Create',
-));
+<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn'));
 ?>
 
 <div class="search-form" style="display:none">
@@ -59,6 +48,7 @@ $this->widget('bootstrap.widgets.TbButton', array(
 		'id',
 		'job_title',
 		'degree',
+        'degree_name',
 		'background',
 		'telephone',
 		'mobile',
@@ -70,7 +60,7 @@ $this->widget('bootstrap.widgets.TbButton', array(
 		'notes',
 		'avatar',
 		'cv',
-		'department_id',
+		'department',
 		'created_date',
 		'updated_date',
 		'personal_email',

@@ -40,7 +40,6 @@ array('label'=>'Manage User','url'=>array('admin')),
     '_form', array(
         'model'=>$model,
         'employeemodel'=>$employeemodel,
-        'department'=>$department,
         'roles'=>$roles,
     ));
 ?>

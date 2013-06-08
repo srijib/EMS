@@ -11,7 +11,9 @@
 
 	<?php echo $form->textFieldRow($model,'job_title',array('class'=>'span5','maxlength'=>255)); ?>
 
-	<?php echo $form->textFieldRow($model,'degree',array('class'=>'span5','maxlength'=>19)); ?>
+	<?php echo $form->textFieldRow($model,'degree',array('class'=>'span5','maxlength'=>255)); ?>
+
+    <?php echo $form->textFieldRow($model,'degree_name',array('class'=>'span5','maxlength'=>255)); ?>
 
 	<?php echo $form->textFieldRow($model,'background',array('class'=>'span5','maxlength'=>255)); ?>
 
@@ -33,7 +35,7 @@
 
 	<?php echo $form->textFieldRow($model,'cv',array('class'=>'span5','maxlength'=>255)); ?>
 
-	<?php echo $form->textFieldRow($model,'department_id',array('class'=>'span5','maxlength'=>11)); ?>
+	<?php echo $form->textFieldRow($model,'department',array('class'=>'span5','maxlength'=>255)); ?>
 
 	<?php echo $form->textFieldRow($model,'created_date',array('class'=>'span5')); ?>
 
@@ -59,7 +61,7 @@
             //'buttonType'=>'link',
             'label'=>'Cancel',
             'htmlOptions'=>array('style'=>'margin-left: 10px;'),
-            'url'=>'../../User/Admin',
+            'url'=>'../../Employee/Admin',
         ));
     }
     ?>

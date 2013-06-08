@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 07, 2013 at 12:10 PM
+-- Generation Time: Jun 08, 2013 at 04:51 PM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -102,8 +102,10 @@ CREATE TABLE IF NOT EXISTS `authassignment` (
 --
 
 INSERT INTO `authassignment` (`itemname`, `userid`, `bizrule`, `data`) VALUES
+('accountant', '5', '', 'N;'),
 ('admin', '1', NULL, 'N;'),
 ('admin', '2', NULL, 'N;'),
+('leader', '4', '', 'N;'),
 ('user', '3', NULL, 'N;');
 
 -- --------------------------------------------------------
@@ -257,35 +259,14 @@ CREATE TABLE IF NOT EXISTS `contract_salary` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `department`
---
-
-CREATE TABLE IF NOT EXISTS `department` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Department Name',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `department`
---
-
-INSERT INTO `department` (`id`, `name`) VALUES
-(1, 'Accounting'),
-(2, 'Human Resource'),
-(3, 'Management'),
-(4, 'Software');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `employee`
 --
 
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) unsigned NOT NULL COMMENT 'Employee ID',
   `job_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Employee Job Title',
-  `degree` enum('Associates','Diploma/Certificate','Bachelors','Masters','Doctorate','N/A') CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Degree Type',
+  `degree` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Degree Type',
+  `degree_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Degree Name',
   `background` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Background of Employee',
   `telephone` int(11) unsigned DEFAULT NULL,
   `mobile` int(11) unsigned DEFAULT NULL,
@@ -296,21 +277,21 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `notes` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT 'Employee Notes',
   `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Employee Avatar',
   `cv` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Employee CV',
-  `department_id` int(11) unsigned NOT NULL COMMENT 'Department ID',
+  `department` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Department ID',
   `created_date` int(11) DEFAULT NULL COMMENT 'Employee Created Date',
   `updated_date` int(11) DEFAULT NULL COMMENT 'Employee Updated Date',
   `personal_email` varchar(255) DEFAULT NULL COMMENT 'Employee Personal Email',
   PRIMARY KEY (`id`),
-  KEY `FK_employee_2` (`department_id`)
+  KEY `FK_employee_2` (`department`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`id`, `job_title`, `degree`, `background`, `telephone`, `mobile`, `homeaddress`, `education`, `skill`, `experience`, `notes`, `avatar`, `cv`, `department_id`, `created_date`, `updated_date`, `personal_email`) VALUES
-(2, 'Senior Developer', 'Bachelors', 'IT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 1370427816, 1370427816, NULL),
-(3, 'Developer I', 'Bachelors', 'IT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 1370429069, 1370429069, NULL);
+INSERT INTO `employee` (`id`, `job_title`, `degree`, `degree_name`, `background`, `telephone`, `mobile`, `homeaddress`, `education`, `skill`, `experience`, `notes`, `avatar`, `cv`, `department`, `created_date`, `updated_date`, `personal_email`) VALUES
+(2, 'Senior Developer', 'Bachelors', NULL, 'IT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Software', 1370427816, 1370427816, NULL),
+(3, 'Developer I', 'Bachelors', NULL, 'IT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Software', 1370429069, 1370429069, NULL);
 
 -- --------------------------------------------------------
 
@@ -415,7 +396,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `fullname`, `email`, `dob`, `password`, `activkey`, `status`, `lastvisit`, `created_date`, `type`, `updated_date`) VALUES
 (1, 'Admin', 'EMS', 'Admin EMS', 'adm.ems.project@gmail.com', 561196800, '61bd60c60d9fb60cc8fc7767669d40a1', NULL, 1, 1370533160, 1370073600, 1, 1370533160),
-(2, 'Tuyen', 'Nguyen', 'Nguyen Thi Tuyen', 'thituyen24@gmail.com', 638443415, '61bd60c60d9fb60cc8fc7767669d40a1', NULL, 1, 1370570901, 1370427816, 0, 1370570901),
+(2, 'Tuyen', 'Nguyen', 'Nguyen Thi Tuyen', 'thituyen24@gmail.com', 638443415, '61bd60c60d9fb60cc8fc7767669d40a1', NULL, 1, 1370701682, 1370427816, 0, 1370701682),
 (3, 'Tuan', 'Tran', 'Tran Thanh Tuan', 'tuandeveloper@gmail.com', 561219955, '61bd60c60d9fb60cc8fc7767669d40a1', NULL, 1, 1370533120, 1370429069, 0, 1370533120);
 
 -- --------------------------------------------------------
@@ -489,8 +470,7 @@ ALTER TABLE `contract_salary`
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `FK_employee_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_employee_2` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_employee_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employee_vacation`

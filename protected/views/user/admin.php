@@ -34,13 +34,13 @@ return false;
 <?php //echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn'));
 $this->widget('bootstrap.widgets.TbButton',array(
     'label' => 'Advanced Search',
-    'htmlOptions'=>array('Class'=>'search-button btn', 'style'=>'float: right;'),
+    'htmlOptions'=>array('Class'=>'search-button btn'),
     'size' => 'large'
 ));
 $this->widget('bootstrap.widgets.TbButton', array(
     //'buttonType'=>'link',
     'label'=>'Create User',
-    'htmlOptions'=>array('Class'=>'btn'),
+    'htmlOptions'=>array('Class'=>'btn', 'style'=>'float: right;'),
     'url'=>'../../User/Create',
 ));
 ?>

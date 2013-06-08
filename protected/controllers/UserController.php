@@ -89,7 +89,6 @@ class UserController extends Controller
 
             $model=new User('create');
             $employeemodel=new Employee('create');
-            $department = new Department();
             $roles = $model->getRoleOptions();
             $pass = $model->autoGeneralPass();
 
@@ -126,7 +125,12 @@ class UserController extends Controller
                 if($model->save()){
                    $employeemodel->attributes = Clean($_POST['Employee']);
                    $employeemodel->id = $model->id;
-                   $employeemodel->personal_email = textlower($employeemodel->personal_email);
+                    if(isset($_POST['Employee']['personal_email'])) {
+                        $employeemodel->personal_email = textlower($employeemodel->personal_email);
+                    }
+                    if(isset($_POST['Employee']['department'])) {
+                        $employeemodel->setDepartment($_POST['Employee']['department']);
+                    }
                    $employeemodel->created_date = $model->created_date;
                    if($employeemodel->save()) {
                         $this->associateUserToRole($_POST['User']['user_role'], $model->id);
@@ -146,7 +150,6 @@ class UserController extends Controller
             $this->render('create',array(
             'model'=>$model,
             'employeemodel'=>$employeemodel,
-            'department'=>$department,
             'roles'=>$roles,
             ));
 

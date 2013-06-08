@@ -227,7 +227,7 @@ class User extends CActiveRecord
      */
     public function getEmployeeDepartment($id) {
         $employee = Employee::model()->findByPk($id);
-        return $employee['department_id'];
+        return $employee['department'];
     }
 
     /*
@@ -302,11 +302,11 @@ class User extends CActiveRecord
      * return user[itemname]
      */
 
-    public function getRoleOfUser() {
+    public function getRoleOfUser($id) {
         $role = Authassignment::model()->find(array(
             'select' => 'itemname, userid',
             'condition' => 'userid =:userId',
-            'params' => array(':userId' => $this->id),
+            'params' => array(':userId' => $id),
         ));
         return $role->itemname;
     }
@@ -332,4 +332,7 @@ class User extends CActiveRecord
         return $this->dob=$bd;
     }
 
+    public function getUserDob () {
+        return date("M-d-Y",$this->dob);
+    }
 }

@@ -19,7 +19,7 @@
     <?php echo $form->dropDownListRow($model,'user_role', $roles,array('empty'=>"Please select role", 'class'=>'span3','maxlength'=>255)); ?>
 
     <?php if($model->isNewRecord):?>
-    <?php echo $form->dropDownListRow($employeemodel,'department_id', $department->getDepartmentArr(),array('empty'=>"Please select Department", 'class'=>'span3','maxlength'=>255)); ?>
+    <?php echo $form->dropDownListRow($employeemodel,'department', $employeemodel->getDepartmentOption(),array('empty'=>"Please select Department", 'class'=>'span3','maxlength'=>255)); ?>
     <?php endif?>
 
     <?php echo $form->dropDownListRow($employeemodel,'job_title', $employeemodel->getJobTitleOption(),array('empty'=>"Please select Job Title", 'class'=>'span3','maxlength'=>255)); ?>

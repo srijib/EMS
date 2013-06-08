@@ -37,6 +37,11 @@
  */
 class Employee extends CActiveRecord
 {
+    const ADMIN = 'Admin';
+    const MANAGEMENT = 'Management';
+    const SOFTWARE = 'Software';
+    const HR = 'HR';
+
     const ASSOCIATES = 'Associates';
     const DIPLOMA = 'Diploma/Certificate';
     const BACHELORS = 'Bachelors';
@@ -95,11 +100,10 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, job_title, department_id', 'required','on'=>'create, edit'),
+			array('id, job_title, department', 'required','on'=>'create, edit'),
 			array('created_date, updated_date', 'numerical', 'integerOnly'=>true),
-			array('id, telephone, mobile, department_id', 'length', 'max'=>11),
-			array('job_title, background, homeaddress, avatar, cv, personal_email', 'length', 'max'=>255),
-			array('degree', 'length', 'max'=>19),
+			array('id, telephone, mobile', 'length', 'max'=>11),
+			array('degree, degree_name, job_title, background, homeaddress, avatar, cv, personal_email, department', 'length', 'max'=>255),
 			array('education, skill, experience, notes', 'safe'),
             array('personal_email','email','message' => '{attribute}: is not a valid email address.','on'=>'create, edit'),
             array('personal_email','unique', 'message' => '{attribute}:{value} already exists, please choose a different one.', 'on' => 'create, edit'),
@@ -107,7 +111,7 @@ class Employee extends CActiveRecord
             array('cv', 'file', 'types'=>'doc, pdf, docx', 'maxSize'=>1024*1024*2, 'tooLarge'=>'The file was larger than 2MB. Please upload a smaller file.', 'allowEmpty'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, job_title, degree, background, telephone, mobile, homeaddress, education, skill, experience, notes, avatar, cv, department_id, created_date, updated_date', 'safe', 'on'=>'search'),
+			array('id, job_title, degree, degree_name, background, telephone, mobile, homeaddress, education, skill, experience, notes, avatar, cv, department, created_date, updated_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -123,7 +127,6 @@ class Employee extends CActiveRecord
 			'contracts1' => array(self::HAS_MANY, 'Contract', 'crreated_id'),
 			'contracts2' => array(self::HAS_MANY, 'Contract', 'updated_id'),
 			'id0' => array(self::BELONGS_TO, 'User', 'id'),
-			'department' => array(self::BELONGS_TO, 'Department', 'department_id'),
 			'employeeVacations' => array(self::HAS_MANY, 'EmployeeVacation', 'employee_id'),
 			'messages' => array(self::HAS_MANY, 'Message', 'mod_user_id'),
 			'messages1' => array(self::HAS_MANY, 'Message', 'mod_sender_id'),
@@ -143,6 +146,7 @@ class Employee extends CActiveRecord
             'personal_email' => 'Personal Email',
 			'job_title' => 'Job Title',
 			'degree' => 'Degree',
+            'degree_name' => 'Degree Name',
 			'background' => 'Background',
 			'telephone' => 'Telephone',
 			'mobile' => 'Mobile',
@@ -153,7 +157,7 @@ class Employee extends CActiveRecord
 			'notes' => 'Notes',
 			'avatar' => 'Avatar',
 			'cv' => 'Cv',
-			'department_id' => 'Department',
+			'department' => 'Department Name',
 			'created_date' => 'Created Date',
 			'updated_date' => 'Updated Date',
 		);
@@ -188,6 +192,7 @@ class Employee extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('job_title',$this->job_title,true);
 		$criteria->compare('degree',$this->degree,true);
+        $criteria->compare('degree',$this->degree_name,true);
 		$criteria->compare('background',$this->background,true);
 		$criteria->compare('telephone',$this->telephone,true);
 		$criteria->compare('mobile',$this->mobile,true);
@@ -198,7 +203,7 @@ class Employee extends CActiveRecord
 		$criteria->compare('notes',$this->notes,true);
 		$criteria->compare('avatar',$this->avatar,true);
 		$criteria->compare('cv',$this->cv,true);
-		$criteria->compare('department_id',$this->department_id,true);
+		$criteria->compare('department_id',$this->department,true);
 		$criteria->compare('created_date',$this->created_date);
 		$criteria->compare('updated_date',$this->updated_date);
 
@@ -240,13 +245,38 @@ class Employee extends CActiveRecord
         );
     }
 
-    public function getJobTitleName($number) {
+    public function getJobTitleName($title) {
         $jobTitle = $this->getJobTitleOption();
-        return isset($jobTitle[$number]) ?  $jobTitle[$number] : "unknown job title ({$number})";
+        return isset($jobTitle[$title]) ?  $jobTitle[$title] : "unknown job title ({$title})";
     }
 
-    public function getUserJobTitle(){
+    public function setJobTitle($job_title){
+        return $this->job_title = $this->getJobTitleName($job_title);
+    }
+
+    public function getJobTitle(){
         return $this->job_title;
+    }
+
+    public function getDepartmentOption() {
+        return array(
+            self::ADMIN => 'Admin',
+            self::HR => 'HR',
+            self::MANAGEMENT => 'Management',
+            self::SOFTWARE => 'Software',
+        );
+    }
+
+    public function getDepartmentName($ali) {
+        $jobFunctions = $this->getDepartmentOption();
+        return isset($jobFunctions[$ali]) ?  $jobFunctions[$ali] : "unknown job function ({$ali})";
+    }
+
+    public function setDepartment($depart){
+        return $this->department = $this->getDepartmentName($depart);
+    }
+    public function getDepartment(){
+        return $this->department;
     }
 
 

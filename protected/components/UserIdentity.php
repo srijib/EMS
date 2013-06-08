@@ -22,7 +22,7 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-        $user = User::model()->findByAttributes(array('email'=>$this->username, 'status'=>1));
+        $user = User::model()->findByAttributes(array('email'=>$this->username));
 
         if($user===null)
         {
@@ -36,10 +36,10 @@ class UserIdentity extends CUserIdentity
             $this->errorCode=self::ERROR_STATUS_BAN;
         } else {
             $this->_id = $user->id;
-            $this->setState('role', $user->getRoleOfUser());
+            $this->setState('role', $user->getRoleOfUser($this->_id));
             $this->setState('type',$user->getUserType());
             if($user->type == 0) {
-                $this->setState('department', $user->getEmployeeDepartment($user->id));
+                $this->setState('department', $user->getEmployeeDepartment($this->_id));
             }
             $this->setState('FistLastName', $user->getFistLastName());
             $this->errorCode=self::ERROR_NONE;
