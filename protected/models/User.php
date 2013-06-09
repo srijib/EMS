@@ -66,7 +66,7 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('firstname, lastname, fullname, email, dob', 'required', 'on'=>'create, edit'),
+			array('firstname, lastname, fullname,user_role, email, dob', 'required', 'on'=>'create, edit'),
             array('password, activkey, status, created_date', 'required', 'on'=>'create'),
             array('status, updated_date', 'required', 'on'=>'edit'),
             array('email','unique', 'message' => '{attribute}:{value} already exists, please choose a different one.', 'on' => 'create, edit'),
@@ -96,7 +96,7 @@ class User extends CActiveRecord
 		return array(
 			'activityLogs' => array(self::HAS_MANY, 'ActivityLog', 'user_id'),
 			'activityLogs1' => array(self::HAS_MANY, 'ActivityLog', 'action_id'),
-            'role' => array(self::HAS_MANY, 'Authassignment', 'userid'),
+            'role' => array(self::HAS_MANY, 'Authassignment', 'userid', 'together' => true),
 			'employee' => array(self::HAS_ONE, 'Employee', 'id'),
 		);
 	}
@@ -120,7 +120,7 @@ class User extends CActiveRecord
 			'created_date' => 'Created Date',
             'updated_date' => 'Updated Date',
 			'type' => 'Type',
-            'user_role' => 'Role',
+            'user_role' => 'Roles',
 		);
 	}
 
@@ -202,13 +202,13 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria(array(
             'with'=>array('role'),
-            'condition' => 't.type=0'
+            'condition' => 't.type=0 AND t.status=1'
         ));
-        $criteria->addCondition(array('t.status'=>1));
+        //$criteria->addCondition(array('t.status'=>1));
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('firstname',$this->firstname,true);
-		$criteria->compare('lastname',$this->lastname,true);
+		//$criteria->compare('id',$this->id,true);
+		//$criteria->compare('firstname',$this->firstname,true);
+		//$criteria->compare('lastname',$this->lastname,true);
 		$criteria->compare('fullname',$this->fullname,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('dob',$this->dob);
@@ -283,6 +283,26 @@ class User extends CActiveRecord
             self::HR => 'Human Resource',
             self::USER => 'User',
         );
+    }
+
+    /*
+     * get role name by role value
+     */
+
+    public function getRoleText($roleValue) {
+        $roleOptions = $this->getRoleOptions();
+        return isset($roleOptions[$roleValue]) ? $roleOptions[$roleValue] : "unknown role ({$roleValue})";
+    }
+
+    /*
+     * get role of user
+     */
+
+    public function getRoleName() {
+        foreach ($this->role as $r) {
+            return $this->getRoleText($r->itemname);
+        }
+        return "";
     }
 
     /*

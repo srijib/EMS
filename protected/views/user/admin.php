@@ -78,26 +78,32 @@ $this->widget('bootstrap.widgets.TbButton', array(
 </p>
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
-'id'=>'user-grid',
-'dataProvider'=>$model->search(),
-'filter'=>$model,
-'columns'=>array(
-		'firstname',
-		'lastname',
-		'fullname',
-		'email',
-		'dob',
-		/*
-		'password',
-		'activkey',
-		'status',
-		'lastvisit',
-		'created_date',
-		'type',
-		'updated_date',
-		*/
-array(
-'class'=>'bootstrap.widgets.TbButtonColumn',
-),
-),
+    'id'=>'user-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
+            //'firstname',
+            //'lastname',
+            'fullname',
+            'email',
+            array('name' => 'user_role',
+                'value' => '($data->getRoleName())?$data->getRoleName(): "-"',
+                'filter' => false,
+                'htmlOptions'=>array('align'=>'center'),
+
+            ),
+            'dob',
+            /*
+            'password',
+            'activkey',
+            'status',
+            'lastvisit',
+            'created_date',
+            'type',
+            'updated_date',
+            */
+    array(
+    'class'=>'bootstrap.widgets.TbButtonColumn',
+    ),
+    ),
 )); ?>

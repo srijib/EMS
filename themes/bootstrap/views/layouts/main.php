@@ -40,7 +40,7 @@
                 array(
                     'label'=>'User',
                     'url'=>array('/User/Admin'),
-                    'visible'=>(app()->user->role =='admin' || app()->user->role =='manager')
+                    'visible'=>(app()->user->role =='admin' || app()->user->role =='manager' || app()->user->role =='leader')
                 ),
             ),
         ),
@@ -50,7 +50,7 @@
             'items'=>array(
                 //array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>webapp()->user->isGuest),
                 array('label'=>app()->user->FistLastName, 'url'=>'#', 'items'=>array(
-                    array('label'=>'Upload Avatar', 'url'=>'#'),
+                    array('label'=>'My Profile', 'url'=>'#'),
                     array('label'=>'Change Password', 'url'=>array('/User/Changepassword')),
                     array('label'=>'Logout', 'url'=>array('/Site/Logout'), 'visible'=>!app()->user->isGuest)
                 )),

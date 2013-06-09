@@ -32,15 +32,15 @@ class UserController extends Controller
         ),
         array('allow',  // allow all users to perform 'index' and 'view' actions
             'actions'=>array('index','view','update'),
-            'roles'=>array('manager'),
+            'roles'=>array('leader'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
             'actions'=>array('create'),
-            'roles'=>array('manager'),
+            'roles'=>array('leader'),
         ),
         array('allow', // allow admin user to perform 'admin' and 'delete' actions
             'actions'=>array('admin'),
-            'roles'=>array('manager'),
+            'roles'=>array('leader'),
         ),
         array('deny',  // deny all users
             'roles'=>array(),
@@ -99,11 +99,11 @@ class UserController extends Controller
                 unset($roles[USER::ADMIN]);
                 unset($roles[USER::MANAGER]);
             }
-            /*elseif(app()->user->checkAccess('leader') && app()->user->type == 0){
+            elseif(app()->user->checkAccess('leader') && app()->user->type == 0){
                 unset($roles[USER::ADMIN]);
                 unset($roles[USER::MANAGER]);
                 unset($roles[USER::LEADER]);
-            }*/
+            }
 
             // Uncomment the following line if AJAX validation is needed
              $this->performAjaxValidation(array($model,$employeemodel));
@@ -117,17 +117,17 @@ class UserController extends Controller
                 $model->dob = $model->setUserDob($_POST['User']['dob']);
                 $model->created_date = gettime();
 
-                    // validate BOTH $model and $employeemodel
-                    //$valid=$model->validate();
-                    //$valid=$employeemodel->validate() && $valid;
-                    // End validate
+                // validate BOTH $model and $employeemodel
+                    $model->validate();
+                    $employeemodel->validate();
+                // End validate
 
                 if($model->save()){
                    $employeemodel->attributes = Clean($_POST['Employee']);
                    $employeemodel->id = $model->id;
-                    if(isset($_POST['Employee']['personal_email'])) {
+                    /*if(isset($_POST['Employee']['personal_email'])) {
                         $employeemodel->personal_email = textlower($employeemodel->personal_email);
-                    }
+                    }*/
                     if(isset($_POST['Employee']['department'])) {
                         $employeemodel->setDepartment($_POST['Employee']['department']);
                     }
@@ -177,7 +177,6 @@ class UserController extends Controller
 
         $model=$this->loadModel($id);
         $employeemodel=$this->loadEmployeeModel($id);
-        $departmentmodel=$this->loadDepartmentModel($id);
         $model->user_role = $model->getRoleValue();
 
         if(app()->user->checkAccess('manager')){
@@ -194,6 +193,19 @@ class UserController extends Controller
             }
         }
         $roles = $model->getRoleOptions();
+        if(app()->user->checkAccess('admin') && app()->user->type == 0){
+            unset($roles[USER::ADMIN]);
+        }
+        elseif(app()->user->checkAccess('manager') && app()->user->type == 0){
+            unset($roles[USER::ADMIN]);
+            unset($roles[USER::MANAGER]);
+        }
+        elseif(app()->user->checkAccess('leader') && app()->user->type == 0){
+            unset($roles[USER::ADMIN]);
+            unset($roles[USER::MANAGER]);
+            unset($roles[USER::LEADER]);
+        }
+
 
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
@@ -202,7 +214,9 @@ class UserController extends Controller
         {
             $model->setScenario('edit');
             $model->attributes=$_POST['User'];
-            if($model->save()) {
+            $model->dob = $model->setUserDob($_POST['User']['dob']);
+            $model->updated_date = gettime();
+            if($model->validate() && $model->save()) {
                 $this->deleteAllAssociateUserToRole($model->id);
                 $this->associateUserToRole($_POST['User']['user_role'], $model->id);
                 $this->redirect(array('view','id'=>$model->id));
@@ -213,7 +227,6 @@ class UserController extends Controller
         $this->render('update',array(
             'model'=>$model,
             'employeemodel'=>$employeemodel,
-            'departmentmodel'=>$departmentmodel,
             'roles'=>$roles
         ));
     }
@@ -336,18 +349,6 @@ class UserController extends Controller
         return $employeemodel;
     }
 
-    /**
-     * Returns the data model based on the primary key given in the GET variable.
-     * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
-     */
-    public function loadDepartmentModel($id)
-    {
-        $departmentmodel=Department::model()->findByPk($id);
-        if($departmentmodel===null)
-            throw new CHttpException(404,'The requested page does not exist.');
-        return $departmentmodel;
-    }
 
     /**
     * Performs the AJAX validation.

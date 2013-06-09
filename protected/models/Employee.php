@@ -68,7 +68,8 @@ class Employee extends CActiveRecord
     const Artist_3D = '3D Artist';
     const Admin_staff = 'Admin Staff';
     const Receptionist = 'Receptionist';
-    const Account_Manager = 'Account Manager';
+    const Accountant_Manager = 'Accountant Manager';
+    const Accountant = 'Accountant';
     const Chief_Accountant = 'Chief Accountant';
     const Project_Manager = 'Project Manager';
     const Operation_Manager = 'Operation Manager';
@@ -237,7 +238,8 @@ class Employee extends CActiveRecord
             self::Artist_3D => '3D Artist',
             self::Admin_staff => 'Admin Staff',
             self::Receptionist => 'Receptionist',
-            self::Account_Manager => 'Account Manager',
+            self::Accountant_Manager => 'Accountant Manager',
+            self::Accountant => 'Accountant',
             self::Chief_Accountant => 'Chief Accountant ',
             self::Project_Manager => 'Project Manager',
             self::Operation_Manager => 'Operation Manager',
