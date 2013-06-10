@@ -60,14 +60,27 @@ class UserController extends Controller
     * Displays a particular model.
     * @param integer $id the ID of the model to be displayed
     */
-    public function actionView($id)
-    {
-    $this->render('view',array(
-    'model'=>$this->loadModel($id),
-    ));
-    }
+  public function actionView($id)
+  {
+    $model = $this->loadModel($id);
+    $modelEmployee = $this->loadEmployeeModel($id);
+    $dob = get_date($model->dob, null);
+    $lastVisit = get_date($model->lastvisit, null);
+    $createdDate = get_date($model->created_date, null);
+    $updatedDate = get_date($model->updated_date, null);
+    $model->setAttribute('dob', $dob);
+    $model->setAttribute('lastvisit', $lastVisit);
+    $model->setAttribute('created_date', $createdDate);
+    $model->setAttribute('updated_date', $updatedDate);
 
-    /**
+
+    $this->render('view',array(
+      'model'=>$model,'employee' => $modelEmployee,
+    ));
+  }
+
+
+  /**
     * Creates a new model.
     * If creation is successful, the browser will be redirected to the 'view' page.
     */

@@ -37,24 +37,45 @@ array('label'=>'Manage User','url'=>array('admin')),
     }
     ?>
 </p>
-
-<h1>View User #<?php echo $model->id; ?></h1>
-
-<?php $this->widget('bootstrap.widgets.TbDetailView',array(
-'data'=>$model,
-'attributes'=>array(
-		'id',
-		'firstname',
-		'lastname',
-		'fullname',
-		'email',
-		'dob',
-		'password',
-		'activkey',
-		'status',
-		'lastvisit',
-		'created_date',
-		'type',
-		'updated_date',
-),
-)); ?>
+<div class = "view_user">
+  <h1><?php echo $model->fullname; ?></h1>
+  <?php $this->widget('bootstrap.widgets.TbDetailView',array(
+    'data'=>$model,
+    'attributes'=>array(
+      'firstname',
+      'lastname',
+      'fullname',
+      'email',
+      array('name' =>'employee.personal_email', 'label' => 'Personal Email'),
+      array('name' =>'employee.job_title', 'label' => 'Job Title'),
+      'dob',
+      'lastvisit',
+      'created_date',
+      'updated_date',
+    ),
+  )); ?>
+    <div class="form-actions">
+      <?php $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType'=>'link',
+        'type'=>'primary',
+        'label'=>$model->id ? 'Update' : 'Edit',
+        'url'=>'../../User/Update/'.$model->id,
+        'htmlOptions'=>array('style'=>'margin-left: 70px; bac '),
+      ));
+      if($model->isNewRecord){
+        $this->widget('bootstrap.widgets.TbButton', array(
+          'buttonType'=>'reset',
+          'htmlOptions'=>array('style'=>'margin-left: 10px;'),
+          'label'=>'Reset',
+        ));
+      } else {
+        $this->widget('bootstrap.widgets.TbButton', array(
+          //'buttonType'=>'link',
+          'label'=>'Cancel',
+          'htmlOptions'=>array('style'=>'margin-left: 10px;'),
+          'url'=>'../../User/Admin',
+        ));
+      }
+      ?>
+    </div>
+</div>
