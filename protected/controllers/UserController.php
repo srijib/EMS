@@ -62,9 +62,18 @@ class UserController extends Controller
     */
     public function actionView($id)
     {
-    $this->render('view',array(
-    'model'=>$this->loadModel($id),
-    ));
+      $model = $this->loadModel($id);
+      $modelEmployee = $this->loadEmployeeModel($id);
+      $dob = get_date($model->dob, null);
+      $lastVisit = get_date($model->lastvisit, null);
+      $createdDate = get_date($model->created_date, null);
+      $updatedDate = get_date($model->updated_date, null);
+      $model->setAttribute('dob', $dob);
+      $model->setAttribute('lastvisit', $lastVisit);
+      $model->setAttribute('created_date', $createdDate);
+      $model->setAttribute('updated_date', $updatedDate);
+
+      $this->render('view',array('model'=>$this->loadModel($id), 'employee' => $modelEmployee));
     }
 
     /**
