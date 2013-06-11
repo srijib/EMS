@@ -49,7 +49,7 @@ defined('DS') or define('DS',DIRECTORY_SEPARATOR);
      */
     function get_date($date, $format){
       if(!$format) {
-        $date = date('d-M-Y h:i:s',$date);
+        $date = date('M-dd-yy',$date);
       } else {
         $date = date($format,$date);
       }
