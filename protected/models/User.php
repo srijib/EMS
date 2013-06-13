@@ -1,5 +1,5 @@
 <?php
-
+Yii::import('application.models.Behavior');
 /**
  * This is the model class for table "user".
  *
@@ -199,24 +199,27 @@ class User extends CActiveRecord
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-
+//    echo $this->fullname;die;
 		$criteria=new CDbCriteria(array(
             'with'=>array('role'),
-            'condition' => 't.type=0 AND t.status=1'
+            'condition' => 't.type = 0 AND t.status = 1'
         ));
-        //$criteria->addCondition(array('t.status'=>1));
-
-		//$criteria->compare('id',$this->id,true);
-		//$criteria->compare('firstname',$this->firstname,true);
-		//$criteria->compare('lastname',$this->lastname,true);
 		$criteria->compare('fullname',$this->fullname,true);
 		$criteria->compare('email',$this->email,true);
-		$criteria->compare('dob',$this->dob);
-		$criteria->compare('status',$this->status,true);
-		$criteria->compare('created_date',$this->created_date);
-		//$criteria->compare('updated_date',$this->updated_date);
 
-		return new CActiveDataProvider($this, array(
+//    if ($this->created_date) {
+//      $start_date = TimetoUnit($this->created_date);
+//      $end_date = gettime();
+//      if ($this->created_date) {
+//        $end_date = TimetoUnit($this->created_date);
+//        if ($end_date < $start_date) {
+//          $end_date = gettime();
+//        }
+//      }
+//      $criteria->condition = ':s<created_date AND created_date<=:e';
+//      $criteria->params = array(':s' => $start_date,':e' => $end_date);
+//    }
+    return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
@@ -355,4 +358,30 @@ class User extends CActiveRecord
     public function getUserDob () {
         return date("M-d-Y",$this->dob);
     }
+
+    public function getFullNameActive()
+    {
+      $users= User::model()->findAll(array('select' => 'id, fullname',
+                                          'condition' => 'status =:status',
+                                          'params' => array(':status' => self::ACTIVE)));
+      $fullName = array();
+      foreach($users as $user) {
+        $fullName[] = $user['fullname'];
+      }
+
+      return $fullName;
+    }
+
+  public function getEmailActive()
+  {
+    $users= User::model()->findAll(array('select' => 'id, email',
+                                        'condition' => 'status =:status',
+                                        'params' => array(':status' => self::ACTIVE)));
+    $email = array();
+    foreach($users as $user) {
+      $email[] = $user['email'];
+    }
+
+    return $email;
+  }
 }
