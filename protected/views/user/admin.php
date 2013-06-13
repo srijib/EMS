@@ -25,12 +25,6 @@ return false;
 
 <h1>Manage Users</h1>
 
-<p>
-	You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>
-		&lt;&gt;</b>
-	or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
-
 <?php //echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn'));
 $this->widget('bootstrap.widgets.TbButton',array(
     'label' => 'Advanced Search',
@@ -76,34 +70,15 @@ $this->widget('bootstrap.widgets.TbButton', array(
     }
   ?>
 </p>
-
-<?php $this->widget('bootstrap.widgets.TbGridView',array(
-    'id'=>'user-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
-            //'firstname',
-            //'lastname',
-            'fullname',
-            'email',
-            array('name' => 'user_role',
-                'value' => '($data->getRoleName())?$data->getRoleName(): "-"',
-                'filter' => false,
-                'htmlOptions'=>array('align'=>'center'),
-
-            ),
-            'dob',
-            /*
-            'password',
-            'activkey',
-            'status',
-            'lastvisit',
-            'created_date',
-            'type',
-            'updated_date',
-            */
-    array(
-    'class'=>'bootstrap.widgets.TbButtonColumn',
+<?php $this->widget('bootstrap.widgets.TbTabs', array(
+    'id' => 'mytabs',
+    'type' => 'tabs',
+    'tabs' => array(
+      array('id' => 'tab1', 'label' => 'Active', 'content' => $this->renderPartial('list', array('model' => $model), true), 'active' => true),
+      array('id' => 'tab2', 'label' => 'Non Active', 'content' => 'loading ....'),
+      array('id' => 'tab3', 'label' => 'Band', 'content' => 'loading ....'),
     ),
-    ),
-)); ?>
+    'events'=>array('shown'=>'js:loadContent')
+  )
+);?>
+

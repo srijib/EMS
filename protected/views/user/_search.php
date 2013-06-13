@@ -1,100 +1,90 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'action'=>Yii::app()->createUrl($this->route),
+  'type'=>'horizontal',
 	'method'=>'get',
 )); ?>
+  <div class="search_name">
+    <div class="rowChild">
+      <label for="fullname">Fullname</label>
+    </div>
+    <div class="rowChild">
+      <?php  $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'model'=> $model,
+        'attribute' => 'fullname',
+        'source'=> User::model()->getFullNameActive(),
+        // additional javascript options for the autocomplete plugin
+        'options'=>array(
+          'minLength'=>'2',
+        ),
+        'htmlOptions'=>array(
+          'style'=>'height:20px;',
+        ),
+      ));
+      ?>
+    </div>
+  </div>
 
-		<?php //echo $form->textFieldRow($model,'id',array('class'=>'span3','maxlength'=>11)); ?>
-
-		<?php //echo $form->textFieldRow($model,'firstname',array('class'=>'span3','maxlength'=>255)); ?>
-
-		<?php //echo $form->textFieldRow($model,'lastname',array('class'=>'span3','maxlength'=>255)); ?>
-
-		<?php echo $form->textFieldRow($model,'fullname',array('class'=>'span3','maxlength'=>255)); ?>
-
-		<?php echo $form->textFieldRow($model,'email',array('class'=>'span3','maxlength'=>255)); ?>
-
-
-		<?php //echo $form->textFieldRow($model,'dob',array('class'=>'span5')); ?>
-        <?php echo $form->labelEx($model,'dob'); ?>
-        <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-            'model'=>$model,
-            'attribute'=>'dob',
-            // additional javascript options for the date picker plugin
-            'options'=>array(
-                'showAnim'=>'fold',
-                'dateFormat'=>'M-dd-yy',
-                'changeYear'=>'true',
-                'changeMonth'=>'true',
-                'yearRange'=>'c-100:c+100'
-            ),
-            'htmlOptions'=>array(
-                'style'=>'height:20px;',
-                'value' => '',
-            ),
+  <div class="search_name">
+    <div class="rowChild">
+      <label for="fullname">Email</label>
+    </div>
+    <div class="rowChild">
+      <?php  $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'model'=>$model,
+        'attribute' => 'email',
+        'source'=> User::model()->getEmailActive(),
+        // additional javascript options for the autocomplete plugin
+        'options'=>array(
+          'minLength'=>'2',
+        ),
+        'htmlOptions'=>array(
+          'style'=>'height:20px;',
+        ),
+      ));
+      ?>
+    </div>
+  </div>
+  <div class="search_name buttons">
+    <div class="rowChild">
+      <label> Created Date</label>
+    </div>
+    <div class="rowChild">
+      <?php
+      // Date range search inputs
+      $attribute = 'created_date';
+      for ($i = 0; $i <= 1; $i++)
+      {
+  echo ($i == 0 ? Yii::t('main', '') : Yii::t('main', 'To:'));
+        $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+          'id'=>CHtml::activeId($model, $attribute.'_'.$i),
+          'model'=>$model,
+          'attribute'=>$attribute,
+          'options'=>array(
+            'showAnim'=>'fold',
+            'dateFormat'=>'M-dd-yy',
+            'changeYear'=>'true',
+            'changeMonth'=>'true',
+            'yearRange'=>'c-100:c+100'
+          ),
+          'htmlOptions'=>array('style'=>'width: 100px;'),
         ));
+      }
+      ?>
+    </div>
+  </div>
+
+  <div class="search_name buttons">
+      <?php
+          $this->widget('bootstrap.widgets.TbButton', array(
+              'buttonType' => 'submit',
+              'type'=>'primary',
+              'label'=>'Search',
+          ));
+          $this->widget('bootstrap.widgets.TbButton', array(
+              'buttonType'=>'reset',
+              'label'=>'Reset',
+              'htmlOptions'=>array('style'=>'margin-left: 10px;'),
+          ));
         ?>
-
-		<?php //echo $form->textFieldRow($model,'activkey',array('class'=>'span5','maxlength'=>500)); ?>
-
-		<?php echo $form->textFieldRow($model,'status',array('class'=>'span3','maxlength'=>1)); ?>
-
-		<?php //echo $form->textFieldRow($model,'lastvisit',array('class'=>'span3')); ?>
-
-		<?php //echo $form->textFieldRow($model,'created_date',array('class'=>'span3')); ?>
-        <?php echo $form->labelEx($model,'created_date'); ?>
-        <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-            'model'=>$model,
-            'attribute'=>'created_date',
-            // additional javascript options for the date picker plugin
-            'options'=>array(
-                'showAnim'=>'fold',
-                'dateFormat'=>'M-dd-yy',
-                'changeYear'=>'true',
-                'changeMonth'=>'true',
-                'yearRange'=>'c-100:c+100'
-            ),
-            'htmlOptions'=>array(
-                'style'=>'height:20px;',
-                'value' => '',
-            ),
-        ));
-        ?>
-
-        <?php //echo $form->textFieldRow($model,'type',array('class'=>'span3','maxlength'=>11)); ?>
-
-		<?php //echo $form->textFieldRow($model,'updated_date',array('class'=>'span3')); ?>
-        <?php echo $form->labelEx($model,'updated_date'); ?>
-        <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-            'model'=>$model,
-            'attribute'=>'updated_date',
-            // additional javascript options for the date picker plugin
-            'options'=>array(
-                'showAnim'=>'fold',
-                'dateFormat'=>'M-dd-yy',
-                'changeYear'=>'true',
-                'changeMonth'=>'true',
-                'yearRange'=>'c-100:c+100'
-            ),
-            'htmlOptions'=>array(
-                'style'=>'height:20px;',
-                'value' => '',
-            ),
-        ));
-        ?>
-
-	<div class="form-actions">
-		<?php
-            $this->widget('bootstrap.widgets.TbButton', array(
-                'buttonType' => 'submit',
-                'type'=>'primary',
-                'label'=>'Search',
-            ));
-            $this->widget('bootstrap.widgets.TbButton', array(
-                'buttonType'=>'reset',
-                'label'=>'Reset',
-                'htmlOptions'=>array('style'=>'margin-left: 10px;'),
-            ));
-        ?>
-	</div>
-
+  </div>
 <?php $this->endWidget(); ?>
