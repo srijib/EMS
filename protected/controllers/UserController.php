@@ -214,8 +214,6 @@ class UserController extends Controller
             unset($roles[USER::MANAGER]);
             unset($roles[USER::LEADER]);
         }
-
-
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
 
@@ -283,19 +281,19 @@ class UserController extends Controller
     */
     public function actionAdmin()
     {
-        if(!app()->user->checkAccess('manageUser')){
-            app()->user->setFlash('error', 'You are requesting to manage user info that you are not authorized!');
-            app()->request->redirect(app()->createUrl('/'));
-        }
+      if(!app()->user->checkAccess('manageUser')){
+          app()->user->setFlash('error', 'You are requesting to manage user info that you are not authorized!');
+          app()->request->redirect(app()->createUrl('/'));
+      }
 
-        $model=new User('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['User']))
-        $model->attributes=$_GET['User'];
+      $model = new User('search');
+      $model->unsetAttributes();  // clear any default values
+      if(isset($_GET['User']))
+      $model->attributes=$_GET['User'];
 
-        $this->render('admin',array(
-        'model'=>$model,
-        ));
+      $this->render('admin',array(
+      'model'=>$model,
+      ));
     }
     /*
 * User can change password
