@@ -153,7 +153,7 @@ class User extends CActiveRecord
 
     /**
      * perform one-way encryption on the password before we store it in the database
-     */
+     *
     protected function afterValidate() {
         parent::afterValidate();
         if (in_array($this->getScenario(), array('create'))) {
@@ -161,6 +161,7 @@ class User extends CActiveRecord
 
         }
     }
+    */
 
     /*
      *  Auto General Password
