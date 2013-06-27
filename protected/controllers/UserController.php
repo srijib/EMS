@@ -121,7 +121,7 @@ class UserController extends Controller
       {
         $model->attributes = Clean($_POST['User']);
         $model->email = textlower($_POST['User']['email']);
-        $model->password = $pass;
+        $model->password = encrypt($pass);
         $model->activkey = encrypt(microtime().$model->password);
         $model->dob = $model->setUserDob($_POST['User']['dob']);
         $model->created_date = gettime();
