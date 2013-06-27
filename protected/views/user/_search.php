@@ -46,33 +46,48 @@
   </div>
   <div class="search_name buttons">
     <div class="rowChild">
-      <label> Created Date</label>
+      <label> From: </label>
     </div>
     <div class="rowChild">
       <?php
-      // Date range search inputs
-      $attribute = 'created_date';
-      for ($i = 0; $i <= 1; $i++)
-      {
-  echo ($i == 0 ? Yii::t('main', '') : Yii::t('main', 'To:'));
-        $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-          'id'=>CHtml::activeId($model, $attribute.'_'.$i),
-          'model'=>$model,
-          'attribute'=>$attribute,
-          'options'=>array(
-            'showAnim'=>'fold',
-            'dateFormat'=>'M-dd-yy',
-            'changeYear'=>'true',
-            'changeMonth'=>'true',
-            'yearRange'=>'c-100:c+100'
-          ),
-          'htmlOptions'=>array('style'=>'width: 100px;'),
-        ));
-      }
+      $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+        'model'=>$model,
+        'attribute'=> 'date_first',
+        // additional javascript options for the date picker plugin
+        'options'=>array(
+          'showAnim'=>'fold',
+          'dateFormat'=>'M-dd-yy',
+          'changeYear'=>'true',
+          'changeMonth'=>'true',
+          'yearRange'=>'c-100:c+100'
+        ),
+        'htmlOptions'=>array(
+          'style'=>'height:20px;width:100px',
+          'value' => '',
+        ),
+      ));?>
+      <?php
+      echo ' TO: ';
+       $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+        'model'=>$model,
+        'attribute'=> 'date_last',
+        // additional javascript options for the date picker plugin
+        'options'=>array(
+          'showAnim'=>'fold',
+          'dateFormat'=>'M-dd-yy',
+          'changeYear'=>'true',
+          'changeMonth'=>'true',
+          'yearRange'=>'c-100:c+100'
+        ),
+        'htmlOptions'=>array(
+          'style'=>'height:20px;width:100px',
+          'value' => '',
+        ),
+      ));
       ?>
     </div>
   </div>
-
+</p>
   <div class="search_name buttons">
       <?php
           $this->widget('bootstrap.widgets.TbButton', array(

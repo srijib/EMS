@@ -39,6 +39,8 @@ class User extends CActiveRecord
 
     public $user_role;
     public $working_age;
+    public $date_first;
+    public $date_last;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -82,7 +84,7 @@ class User extends CActiveRecord
                 'allowEmpty'=>false , 'message'=>'Your birthday is incorrect or you are not in working age allowed','on'=>'create,edit'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, firstname, lastname, fullname, email, dob, password, activkey, status, lastvisit, user_role, created_date, type, updated_date', 'safe', 'on'=>'search'),
+			array('fullname, email, date_first, date_last, created_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -121,6 +123,8 @@ class User extends CActiveRecord
             'updated_date' => 'Updated Date',
 			'type' => 'Type',
             'user_role' => 'Roles',
+      'date_first' => 'First date',
+      'date_last' => 'last_date'
 		);
 	}
 
@@ -197,9 +201,10 @@ class User extends CActiveRecord
 	 */
 	public function search()
 	{
+    $start_date= CDateTimeParser::parse($this->date_first,'MM-dd-yyyy', array('hour'=>0,'minute'=>0, 'second'=>0));
+    $end_date= CDateTimeParser::parse($this->date_last,'MM-dd-yyyy', array('hour'=>23,'minute'=>59, 'second'=>59));
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-//    echo $this->fullname;die;
 		$criteria=new CDbCriteria(array(
             'with'=>array('role'),
             'condition' => 't.type = 0 AND t.status = 1'
@@ -207,18 +212,11 @@ class User extends CActiveRecord
 		$criteria->compare('fullname',$this->fullname,true);
 		$criteria->compare('email',$this->email,true);
 
-//    if ($this->created_date) {
-//      $start_date = TimetoUnit($this->created_date);
-//      $end_date = gettime();
-//      if ($this->created_date) {
-//        $end_date = TimetoUnit($this->created_date);
-//        if ($end_date < $start_date) {
-//          $end_date = gettime();
-//        }
-//      }
-//      $criteria->condition = ':s<created_date AND created_date<=:e';
-//      $criteria->params = array(':s' => $start_date,':e' => $end_date);
-//    }
+    //if((isset($start_date) && trim($start_date) != "") && (isset($end_date) && trim($end_date) != ""))
+    if(!empty($start_date) && !empty($end_date))
+    {
+      $criteria->addBetweenCondition('created_date', $start_date, $end_date);
+    }
     return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
